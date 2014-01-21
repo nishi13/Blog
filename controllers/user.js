@@ -1,8 +1,16 @@
+var moongose = require("mongoose");
+var User = moongose.model("User");
 
-/*
- * GET users listing.
- */
+ exports.sing = function(req, res){
+    res.render('sing');
+ };
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
-};
+ //create new post
+ exports.create = function(req, res){
+   new User({
+     username : req.param('username'),
+     password : req.param('password'),
+   }).save(function (err, post, count){
+     res.redirect('/');
+   })
+ }

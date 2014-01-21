@@ -1,16 +1,32 @@
 extends layout
 
 block content
-    h1 Post
+    h1 Blog Test
     - each post in post_list
         div.post
-            div.created_at= post.created_at
-        div.title
-            a(href='/post/'+post.id)!=post.title
-        p.body= post.content
-    form(method="post")
-        label Title:
-        input(type='text', name='title')
-        label Content:
-        input(type='text', name='content')
-        input(type='submit')
+            div.title
+                h2
+                    a(href='/post/'+post._id)!=post.title
+            p.body= post.content
+            p.created_at
+                small=post.updated_at
+            hr
+    if req.user
+        form(method="post")
+            label Title:
+            input(type='text', name='title')
+            br
+            label Content:
+            br
+            textarea(type='text', name='content')
+            input(type='submit')
+    else
+        form(method="post" action="/login")
+            label Login:
+            input(type='text', name='username')
+            br
+            label Password:
+            input(type='password', name='password')
+            input(type='submit')
+            br
+            a(href='/user/create') sing up

@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    h1 Blog Test
+    a(href='/post/remove/'+post._id) Deletar
+    div= ' '
+    a(href='#' onclick='show()') Editar
+    div.post
+        div.title
+            h2=post.title
+        p.body= post.content
+        p.created_at
+            small=post.updated_at
+        hr
+    - each coment in post.coments
+        div.coment
+            div= coment.id + ')'
+            div.title= coment.author
+            p.body=coment.content
+            div.created_at
+                small= coment.updated_at
+                a(href="#") Editar
+                a(href="/coment/remove/"+post.id+"/"+coment.id) Deletar
+            hr
+    form(method="post")
+        label Nome:
+        input(type='text', name='author')
+        br
+        label Coment:
+        br
+        textarea(type='text', name='content')
+        input(type='submit')
