@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 Post
+    - each post in post_list
+        div.post
+            div.created_at= post.created_at
+        div.title
+            a(href='/post/'+post.id)!=post.title
+        p.body= post.content
+    form(method="post")
+        label Title:
+        input(type='text', name='title')
+        label Content:
+        input(type='text', name='content')
+        input(type='submit')
