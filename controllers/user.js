@@ -1,8 +1,8 @@
 var moongose = require("mongoose");
 var User = moongose.model("User");
 
- exports.sing = function(req, res){
-    res.render('sing');
+ exports.sign = function(req, res){
+    res.render('sign');
  };
 
  //create new post
@@ -13,4 +13,8 @@ var User = moongose.model("User");
    }).save(function (err, post, count){
      res.redirect('/');
    })
+ }
+
+ exports.index = function(req, res){
+  res.json(200,res.user)
  }

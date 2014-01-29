@@ -1,21 +1,33 @@
 var moongose = require("mongoose");
 var Post = moongose.model("Post")
 
-//create new coment
-exports.create = function(req, res){
+
+//index
+exports.index = function(req, res){
   Post.findById (req.params.id, function (err, post){
     if(post){
-      post.coments.push ({
-        id:post.coments.length+1,
-        author:req.param('author'),
-        content:req.param('content')
-      })
+      res.json(200,{coments:post.coments});
+    }
+    else{
+      res.json(404);
+    }
+  })
+}
+
+//create new coment
+exports.create = function(req, res){
+  var coment=req.body.coment;
+  Post.findById (coment.post_id, function (err, post){
+    if(post){
+      coment.id=post.coments.length+1;
+      console.log(coment);
+      post.coments.push (coment)
       post.save(function (err, post, count){
-          res.render('post',{post:post});
+        res.json(201,{post:post});
       })
     }
     else{
-      res.redirect('/');
+      res.json(500,{post:post});
     }
   })
 }

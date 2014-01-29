@@ -1,6 +1,11 @@
 extends layout
 
 block content
+    div(style="position:absolute;right:10px;")
+        form(action="/post/search/" method='get')
+            label Search:
+            input(type='text', name='q')
+            input(type='submit')
     h1 Blog Test
     - each post in post_list
         div.post
@@ -19,6 +24,10 @@ block content
             label Content:
             br
             textarea(type='text', name='content')
+            br
+            label Tags:
+            input(type='text', name='tags')
+            br
             input(type='submit')
     else
         form(method="post" action="/login")
