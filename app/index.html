@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog</title>
+  <script src='bower_components/jquery/jquery.js'></script>
+  <script src="bower_components/jquery-cookie/jquery.cookie.js"></script>
+  <script src='bower_components/handlebars/handlebars.js'></script>
+  <script src='bower_components/ember/ember.js'></script>
+  <script src='bower_components/ember-data/ember-data.js'></script>
+  <script src='initialize.js'></script>
+  <script src='models.js'></script>
+  <script src='router.js'></script>
+  <script src='controller.js'></script>
+  </head>
+  <body>
+  <script type='text/x-handlebars' data-template-name='application'>
+    {{#link-to 'posts' tagName='h2'}}Blog Test Ember{{/link-to}}
+    {{outlet}}
+    </script>
+  <script type='text/x-handlebars' data-template-name='index'>
+      <h1>{{#link-to 'posts'}}ola{{/link-to}}</h1>
+    </script>
+    <script type='text/x-handlebars' data-template-name='posts'>
+    <div style="position:absolute;right:10px;">
+      <form {{action 'search' on='submit'}}>
+        <label>Search:</label>
+        {{input valueBinding='query'}}
+        <input type="submit">
+      </form>
+    </div>
+    {{#each}}
+    {{#link-to 'post' this}}<h2>{{title}}</h2>{{/link-to}}
+    <p>{{text}}</p>
+    <p><small>{{updated_at}}</small></p>
+    <hr>
+    {{/each}}
+    {{#if App.Session.authToken}}
+    <form {{action 'post' on='submit'}}>
+      <label>Title:</label>
+      {{input valueBinding='title'}}
+      <br>
+      <label>Content:</label>
+      <br>
+      {{textarea valueBinding='text' }}
+      <br>
+      <label>Tags:</label>
+      {{input valueBinding='tags'}}
+      <br>
+      <input type="submit">
+      </form>
+      <button {{action 'logout' }}> logout</button>
+          {{else}}
+      <form {{action login on='submit'}}>
+        <label for="identification">Login</label>
+        {{input id='identification' placeholder='Enter Login' valueBinding='username'}}<br>
+        <label for="password">Password</label>
+        {{input id='password' placeholder='Enter Password' type='password' valueBinding='password'}}<br>
+        <button type="submit">Login</button>
+      </form>
+      {{#link-to 'sign' }}Sign Up{{/link-to}}
+    {{/if}}
+    </script>
+    <script type='text/x-handlebars' data-template-name='post'>
+    <h2>{{title}}</h2>
+    <button {{action 'delete'}}>deletar</button>
+    <button {{action 'editable'}}> editar </button>
+    {{#if isEditable}}
+      <form {{action 'post' on='submit'}}>
+      <label>Title:</label>
+      {{input valueBinding='title'}}
+      <br>
+      <label>Content:</label>
+      <br>
+      {{textarea valueBinding='text' }}
+      <br>
+      <label>Tags:</label>
+      {{input valueBinding='tags'}}
+      <br>
+      <input type="submit">
+    {{else}}
+    <p>{{text}}</p>
+    <p><small>{{updated_at}}</small></p>
+    {{/if}}
+    <hr>
+    {{#each coments}}
+    <h3>{{author}}</h3>
+    <p>{{text}}</p>
+    <p><small>{{updated_at}}</small></p>
+    <hr>
+    {{/each}}
+    <form {{action 'coment' on='submit'}}>
+    <label>Author:</label>
+    {{input valueBinding='author1'}}
+    <br>
+    <label>Content:</label>
+    <br>
+    {{textarea valueBinding='content1' }}
+    <br>
+    <input type="submit">
+    </form>
+    </script>
+    <script type='text/x-handlebars' data-template-name='sign'>
+      <form {{action 'sign' on='submit'}}>
+        <label for="identification">Email</label>
+        {{input id='identification' placeholder='Enter email' value=identification}}<br>
+        <label for="password">Password</label>
+        {{input id='password' placeholder='Enter Password' type='password' value=password}}<br>
+        <button type="submit">Submit</button>
+    </script>
+    </body>
+  </html>
